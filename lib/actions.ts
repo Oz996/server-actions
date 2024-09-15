@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
 import { redirect } from "next/navigation";
 
+export const getTodos = async () => await prisma.todo.findMany();
+
 export const createTodo = async (formData: FormData) => {
   const title = formData.get("title") as string;
   await prisma.todo.create({
@@ -16,4 +18,12 @@ export const createTodo = async (formData: FormData) => {
   redirect("/");
 };
 
-export const getTodos = async () => await prisma.todo.findMany();
+export const deleteTodo = async (id: number) => {
+  await prisma.todo.delete({
+    where: {
+      id,
+    },
+  });
+  revalidatePath("/");
+  redirect("/");
+};

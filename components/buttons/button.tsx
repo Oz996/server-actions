@@ -28,6 +28,7 @@ export default function Button({
       className={classNames({
         "bg-blue-600/70 px-5 py-2 rounded-lg text-white font-semibold capitalize":
           true,
+        "bg-red-600/70": variant === "danger",
       })}
     >
       {children}

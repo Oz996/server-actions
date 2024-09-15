@@ -1,4 +1,5 @@
-import Button from "@/components/button";
+import Button from "@/components/buttons/button";
+import TodoButton from "@/components/buttons/todo-button";
 import TodoModal from "@/components/todo-modal";
 import { getTodos } from "@/lib/actions";
 import { Pencil, Trash } from "lucide-react";
@@ -40,12 +41,12 @@ export default async function Todos({
                   <span className="text-sm">{formatDate(todo.createdAt)}</span>
                 </div>
                 <div className="ml-auto flex gap-3 items-center">
-                  <button className="bg-gray-300/80 rounded-lg size-9">
+                  <TodoButton mode="delete" todoId={todo.id}>
                     <Trash size={20} className="m-auto" />
-                  </button>
-                  <button className="bg-gray-300/80 rounded-lg size-9">
+                  </TodoButton>
+                  <TodoButton mode="edit" todoId={todo.id}>
                     <Pencil size={20} className="m-auto" />
-                  </button>
+                  </TodoButton>
                 </div>
               </li>
             ))}

@@ -1,7 +1,13 @@
+import Button from "@/components/button";
+import TodoModal from "@/components/todo-modal";
 import { getTodos } from "@/lib/actions";
-import { Pen, Pencil, Trash } from "lucide-react";
+import { Pencil, Trash } from "lucide-react";
 
-export default async function Todos() {
+export default async function Todos({
+  searchParams,
+}: {
+  searchParams: { modal: string };
+}) {
   const todos = await getTodos();
 
   const formatDate = (date: Date) => {
@@ -19,9 +25,7 @@ export default async function Todos() {
       <h1 className="text-4xl font-bold text-gray-600 uppercase">todo list</h1>
       <div className="flex flex-col gap-3 w-[60rem]">
         <div className="flex gap-3">
-          <button className="bg-blue-600/70 px-5 py-2 rounded-lg text-white font-semibold capitalize">
-            add task
-          </button>
+          <Button>add task</Button>
         </div>
         <div className="bg-slate-200 rounded-lg w-full p-6">
           <ul className="flex flex-col gap-5">
@@ -48,6 +52,7 @@ export default async function Todos() {
           </ul>
         </div>
       </div>
+      <TodoModal modal={searchParams.modal} />
     </section>
   );
 }

@@ -1,7 +1,8 @@
 "use client";
 
 import { deleteTodo } from "@/lib/actions";
-import { Loader, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { ReactNode } from "react";
 import { useTransition } from "react";
 
@@ -18,14 +19,20 @@ export default function TodoButton({
   todoId,
 }: TodoButtonProps) {
   const editMode = mode === "edit";
+  const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
 
   const handleClick = async (id: number) => {
-    startTransition(async () => {
-      await deleteTodo(id);
-    });
+    if (editMode) {
+      router.push(`/?modal=edit&id=${id}`);
+    } else {
+      startTransition(async () => {
+        await deleteTodo(id);
+      });
+    }
   };
+
   return (
     <button
       onClick={() => handleClick(todoId)}

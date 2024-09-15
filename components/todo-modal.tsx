@@ -1,13 +1,16 @@
-import { createTodo } from "@/lib/actions";
+import { createTodo, editTodo } from "@/lib/actions";
 import Button from "./buttons/button";
 import CloseModalButton from "./buttons/close-modal-button";
 
 interface ModalProps {
   modal: string;
+  id?: number;
 }
 
-export default function TodoModal({ modal }: ModalProps) {
+export default function TodoModal({ modal, id }: ModalProps) {
   const addMode = modal === "add";
+
+  const action = addMode ? createTodo : editTodo;
 
   if (modal)
     return (
@@ -19,7 +22,8 @@ export default function TodoModal({ modal }: ModalProps) {
             </h2>
             <CloseModalButton />
           </div>
-          <form action={createTodo} className="flex flex-col grow">
+          <form action={action} className="flex flex-col grow">
+            <input type="hidden" name="id" value={id} />
             <label htmlFor="title" className="sr-only">
               title
             </label>

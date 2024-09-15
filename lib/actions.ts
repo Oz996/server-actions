@@ -27,3 +27,19 @@ export const deleteTodo = async (id: number) => {
   revalidatePath("/");
   redirect("/");
 };
+
+export const editTodo = async (formData: FormData) => {
+  const title = formData.get("title") as string;
+  const completed = Boolean(formData.get("completed"));
+  const id = Number(formData.get("id"));
+
+  await prisma.todo.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      completed,
+    },
+  });
+};

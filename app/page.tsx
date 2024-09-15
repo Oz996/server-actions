@@ -25,7 +25,7 @@ export default async function Todos({
       <h1 className="text-4xl font-bold text-gray-600 uppercase">todo list</h1>
       <div className="flex flex-col gap-3 w-[60rem]">
         <div className="flex gap-3">
-          <Button>add task</Button>
+          <Button route="add">add task</Button>
         </div>
         <div className="bg-slate-200 rounded-lg w-full p-6">
           <ul className="flex flex-col gap-5">

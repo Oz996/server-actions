@@ -1,3 +1,4 @@
+import { createTodo } from "@/lib/actions";
 import Button from "./button";
 
 interface ModalProps {
@@ -10,11 +11,11 @@ export default function TodoModal({ modal }: ModalProps) {
   if (modal)
     return (
       <div className="fixed flex items-center justify-center inset-0 backdrop-blur-[3px]">
-        <div className="bg-white border border-slate-300 rounded p-5 size-[30rem] space-y-5">
+        <div className="bg-white flex flex-col gap-5 border border-slate-300 rounded p-5 size-[30rem]">
           <h2 className="text-2xl font-semibold capitalize text-center">
             {addMode ? "add todo" : "edit todo"}
           </h2>
-          <form>
+          <form action={createTodo} className="flex flex-col grow">
             <label htmlFor="title" className="sr-only">
               title
             </label>
@@ -24,7 +25,7 @@ export default function TodoModal({ modal }: ModalProps) {
               placeholder="Title"
               className="py-2 px-3 bg-slate-200 rounded w-full"
             />
-            <div>
+            <div className="mt-auto">
               <Button>submit</Button>
             </div>
           </form>

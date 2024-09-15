@@ -1,6 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
+import { redirect } from "next/navigation";
 
 export const createTodo = async (formData: FormData) => {
   const title = formData.get("title") as string;
@@ -10,6 +12,8 @@ export const createTodo = async (formData: FormData) => {
       completed: false,
     },
   });
+  revalidatePath("/");
+  redirect("/");
 };
 
 export const getTodos = async () => await prisma.todo.findMany();

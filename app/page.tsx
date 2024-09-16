@@ -1,7 +1,10 @@
 import Button from "@/components/buttons/button";
 import TodoButton from "@/components/buttons/todo-button";
+import TodoCheckbox from "@/components/todo-checkbox";
 import TodoModal from "@/components/todo-modal";
 import { getTodo, getTodos } from "@/lib/actions";
+import { Todo } from "@prisma/client";
+import classNames from "classnames";
 import { Pencil, Trash } from "lucide-react";
 
 export default async function Todos({
@@ -9,8 +12,9 @@ export default async function Todos({
 }: {
   searchParams: { modal: string; id?: string };
 }) {
-  const todos = await getTodos();
-  const todo = searchParams.id && (await getTodo(Number(searchParams.id)));
+  const id = Number(searchParams?.id);
+  const todos: Todo[] = await getTodos();
+  const todo = searchParams?.id ? ((await getTodo(id)) as Todo) : undefined;
 
   const formatDate = (date: Date) => {
     return date.toLocaleString("en-US", {
@@ -33,12 +37,16 @@ export default async function Todos({
           <ul className="flex flex-col gap-5">
             {todos.map((todo) => (
               <li key={todo.id} className="flex w bg-white rounded-lg p-2 px-3">
-                <input
-                  type="checkbox"
-                  className="border-none outline-none size-8 place-self-center bg-slate-200 rounded-lg"
-                />
+                <TodoCheckbox todo={todo} />
                 <div className="space-y-2 ml-3">
-                  <p className="font-semibold capitalize">{todo.title}</p>
+                  <p
+                    className={classNames({
+                      "font-semibold capitalize": true,
+                      "line-through": todo.completed,
+                    })}
+                  >
+                    {todo.title}
+                  </p>
                   <span className="text-sm">{formatDate(todo.createdAt)}</span>
                 </div>
                 <div className="ml-auto flex gap-3 items-center">
@@ -54,7 +62,7 @@ export default async function Todos({
           </ul>
         </div>
       </div>
-      <TodoModal modal={searchParams.modal} todo={todo} />
+      <TodoModal modal={searchParams.modal} todo={todo} id={searchParams?.id} />
     </section>
   );
 }

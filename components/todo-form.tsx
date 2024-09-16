@@ -1,12 +1,12 @@
 "use client";
 import { createTodo, editTodo } from "@/lib/actions";
 import Button from "./buttons/button";
-import useParamsId from "@/hooks/useParamsId";
 import { ChangeEvent, useState } from "react";
 
 interface TodoFormProps {
   addMode: boolean;
   todo: any;
+  id?: string;
 }
 
 interface FormData {
@@ -19,11 +19,10 @@ const initialState: FormData = {
   completed: false,
 };
 
-export default function TodoForm({ addMode, todo }: TodoFormProps) {
+export default function TodoForm({ addMode, todo, id }: TodoFormProps) {
   const [formData, setFormData] = useState(initialState);
 
   const action = addMode ? createTodo : editTodo;
-  const { id } = useParamsId();
 
   console.log("id", id);
 

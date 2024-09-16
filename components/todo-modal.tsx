@@ -1,10 +1,11 @@
+import { Todo } from "@prisma/client";
 import CloseModalButton from "./buttons/close-modal-button";
 import TodoForm from "./todo-form";
 
 interface ModalProps {
   modal: string;
-  id?: number;
-  todo: any;
+  id?: string;
+  todo?: Todo;
 }
 
 export default function TodoModal({ modal, id, todo }: ModalProps) {
@@ -22,7 +23,7 @@ export default function TodoModal({ modal, id, todo }: ModalProps) {
             </h2>
             <CloseModalButton />
           </div>
-          <TodoForm todo={todo} addMode={addMode} />
+          <TodoForm todo={todo} addMode={addMode} id={id} />
         </div>
       </div>
     );

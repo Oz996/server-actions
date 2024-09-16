@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import prisma from "./prisma";
 import { redirect } from "next/navigation";
+import { Todo } from "@prisma/client";
 
 export const getTodos = async () => await prisma.todo.findMany();
 
@@ -22,8 +23,7 @@ export const createTodo = async (formData: FormData) => {
       completed: false,
     },
   });
-  revalidatePath("/");
-  redirect("/");
+  revalidate();
 };
 
 export const deleteTodo = async (id: number) => {
@@ -32,13 +32,11 @@ export const deleteTodo = async (id: number) => {
       id,
     },
   });
-  revalidatePath("/");
-  redirect("/");
+  revalidate();
 };
 
 export const editTodo = async (formData: FormData) => {
   const title = formData.get("title") as string;
-  const completed = Boolean(formData.get("completed"));
   const id = Number(formData.get("id"));
 
   await prisma.todo.update({
@@ -47,9 +45,24 @@ export const editTodo = async (formData: FormData) => {
     },
     data: {
       title,
-      completed,
     },
   });
+  revalidate();
+};
+
+export const editCompleted = async (todo: Todo) => {
+  await prisma.todo.update({
+    where: {
+      id: todo.id,
+    },
+    data: {
+      completed: !todo.completed,
+    },
+  });
+  revalidatePath("/");
+};
+
+const revalidate = () => {
   revalidatePath("/");
   redirect("/");
 };

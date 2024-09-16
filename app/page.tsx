@@ -1,5 +1,5 @@
 import Button from "@/components/buttons/button";
-import TodoButton from "@/components/buttons/todo-button";
+import DeleteButton from "@/components/buttons/delete-button";
 import TodoCheckbox from "@/components/todo-checkbox";
 import TodoModal from "@/components/todo-modal";
 import { getTodo, getTodos } from "@/lib/actions";
@@ -50,12 +50,12 @@ export default async function Todos({
                   <span className="text-sm">{formatDate(todo.createdAt)}</span>
                 </div>
                 <div className="ml-auto flex gap-3 items-center">
-                  <TodoButton mode="delete" todoId={todo.id}>
+                  <DeleteButton todoId={todo.id}>
                     <Trash size={20} className="m-auto" />
-                  </TodoButton>
-                  <TodoButton mode="edit" todoId={todo.id}>
+                  </DeleteButton>
+                  <Button route="edit" todoId={todo.id} sm>
                     <Pencil size={20} className="m-auto" />
-                  </TodoButton>
+                  </Button>
                 </div>
               </li>
             ))}

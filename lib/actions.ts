@@ -6,6 +6,14 @@ import { redirect } from "next/navigation";
 
 export const getTodos = async () => await prisma.todo.findMany();
 
+export const getTodo = async (id: number) => {
+  return await prisma.todo.findUnique({
+    where: {
+      id,
+    },
+  });
+};
+
 export const createTodo = async (formData: FormData) => {
   const title = formData.get("title") as string;
   await prisma.todo.create({
@@ -42,4 +50,6 @@ export const editTodo = async (formData: FormData) => {
       completed,
     },
   });
+  revalidatePath("/");
+  redirect("/");
 };

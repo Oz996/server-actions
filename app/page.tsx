@@ -1,15 +1,16 @@
 import Button from "@/components/buttons/button";
 import TodoButton from "@/components/buttons/todo-button";
 import TodoModal from "@/components/todo-modal";
-import { getTodos } from "@/lib/actions";
+import { getTodo, getTodos } from "@/lib/actions";
 import { Pencil, Trash } from "lucide-react";
 
 export default async function Todos({
   searchParams,
 }: {
-  searchParams: { modal: string };
+  searchParams: { modal: string; id?: string };
 }) {
   const todos = await getTodos();
+  const todo = searchParams.id && (await getTodo(Number(searchParams.id)));
 
   const formatDate = (date: Date) => {
     return date.toLocaleString("en-US", {
@@ -53,7 +54,7 @@ export default async function Todos({
           </ul>
         </div>
       </div>
-      <TodoModal modal={searchParams.modal} />
+      <TodoModal modal={searchParams.modal} todo={todo} />
     </section>
   );
 }

@@ -23,7 +23,7 @@ export default function TodoModal({ modal, id, todo }: ModalProps) {
             </h2>
             <CloseModalButton />
           </div>
-          <TodoForm todo={todo} addMode={addMode} id={id} />
+          <TodoForm todo={todo as Todo} addMode={addMode} id={id} />
         </div>
       </div>
     );

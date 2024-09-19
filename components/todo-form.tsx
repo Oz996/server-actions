@@ -2,10 +2,11 @@
 import { createTodo, editTodo } from "@/lib/actions";
 import Button from "./buttons/button";
 import { ChangeEvent, useState } from "react";
+import { Todo } from "@prisma/client";
 
 interface TodoFormProps {
   addMode: boolean;
-  todo: any;
+  todo: Todo;
   id?: string;
 }
 
@@ -24,7 +25,7 @@ export default function TodoForm({ addMode, todo, id }: TodoFormProps) {
 
   const action = addMode ? createTodo : editTodo;
 
-  console.log("id", id);
+  console.log("formData", formData);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData((data) => ({
